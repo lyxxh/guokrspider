@@ -9,4 +9,5 @@
 class GuokrspiderPipeline(object):
     def process_item(self, item, spider):
         print(item['title'])
+        print(item['description'])
         return item

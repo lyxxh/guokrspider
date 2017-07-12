@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from guokrspider.items import GuokrspiderItem
+import guokrspider.items
 
 
 class GuokrSpider(scrapy.Spider):
@@ -9,6 +9,7 @@ class GuokrSpider(scrapy.Spider):
     start_urls = ['http://guokr.com/']
 
     def parse(self, response):
-        item = GuokrspiderItem()
+        item = guokrspider.items.GuokrspiderItem()
         item['title'] = response.xpath('/html/head/title/text()').extract()
+        item['description'] = response.xpath('/html/head/@content[@name="Description"]').extract()
         yield item
