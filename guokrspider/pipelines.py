@@ -8,6 +8,5 @@
 
 class GuokrspiderPipeline(object):
     def process_item(self, item, spider):
-        print(item['title'])
-        print(item['description'])
+        print(item['grouprange'])
         return item

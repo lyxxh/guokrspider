@@ -11,6 +11,10 @@ import scrapy
 class GuokrspiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    title = scrapy.Field()
-    description = scrapy.Field()
+    grouprange = scrapy.Field()
+    groupname = scrapy.Field()
+    issuper = scrapy.Field()
+    joinnum = scrapy.Field()
+    link = scrapy.Field()
+    status = scrapy.Field()
     pass
