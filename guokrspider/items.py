@@ -14,7 +14,7 @@ class GuokrspiderItem(scrapy.Item):
     grouprange = scrapy.Field()
     groupname = scrapy.Field()
     issuper = scrapy.Field()
-    joinnum = scrapy.Field()
+    members = scrapy.Field()
     link = scrapy.Field()
     status = scrapy.Field()
     pass
