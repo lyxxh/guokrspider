@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import re
+import time
 from guokrspider.items import GuokrspiderItem
 from scrapy import Request
 
@@ -10,6 +11,7 @@ class GuokrSpider(scrapy.Spider):
     allowed_domains = ['guokr.com']
     start_urls = ['http://www.guokr.com/group/rank/popular/']
     host = 'http://www.guokr.com'
+    time_now = time.strftime("%Y%m%d%H%M%S", time.localtime())
 
     def parse(self, response):
         item = GuokrspiderItem()
@@ -32,6 +34,7 @@ class GuokrSpider(scrapy.Spider):
                 item['status'] = status[0]
             else:
                 item['status'] = group.xpath('./span[@class="rank-right"]/a/text()').extract_first()
+            item['update_time'] = self.time_now
             yield item
 
         next_page = response.xpath('//li[a="下一页"]/a/@href').extract_first()

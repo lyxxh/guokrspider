@@ -88,3 +88,8 @@ ITEM_PIPELINES = {
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+MONGO_HOST = '192.168.192.128'
+MONGO_PORT = 27017
+MONGO_DB = 'spider'
+MONGO_COLL = 'guokr'

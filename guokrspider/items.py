@@ -17,4 +17,5 @@ class GuokrspiderItem(scrapy.Item):
     members = scrapy.Field()
     link = scrapy.Field()
     status = scrapy.Field()
+    update_time = scrapy.Field()
     pass
