@@ -4,6 +4,7 @@ import re
 import time
 from guokrspider.items import GuokrspiderItem
 from scrapy import Request
+from scrapy.conf import settings
 
 
 class GuokrSpider(scrapy.Spider):
@@ -12,6 +13,21 @@ class GuokrSpider(scrapy.Spider):
     start_urls = ['http://www.guokr.com/group/rank/popular/']
     host = 'http://www.guokr.com'
     time_now = time.strftime("%Y%m%d%H%M%S", time.localtime())
+    cookie = settings['COOKIE']
+    headers = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6',
+        'Connection': 'keep-alive',
+        'DNT': '1',
+        'Host': 'www.guokr.com',
+        'Upgrade-Insecure-Requests': '1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
+                      'Chrome/60.0.3112.90 Safari/537.36 '
+    }
+
+    def start_requests(self):
+        yield scrapy.Request(url=self.start_urls[0], headers=self.headers, cookies=self.cookie)  # 这里带着cookie发出请求
 
     def parse(self, response):
         item = GuokrspiderItem()
