@@ -65,6 +65,7 @@ ROBOTSTXT_OBEY = False
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'guokrspider.pipelines.GuokrspiderPipeline': 300,
+    'guokrspider.pipelines.GuokrspiderMysqlPipeline': 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -88,12 +89,21 @@ ITEM_PIPELINES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
+# Mongo DB数据库连接配置
 MONGO_HOST = '192.168.192.128'
 MONGO_PORT = 27017
 MONGO_DB = 'spider'
 MONGO_COLL = 'guokr'
 
+# Mysql数据库连接配置
+MYSQL_HOST = '192.168.192.128'  # 数据库IP
+MYSQL_PORT = 3306               # 数据库端口
+MYSQL_DBNAME = 'test'           # 数据库名字
+MYSQL_USER = 'test'             # 数据库账号
+MYSQL_PASSWD = 'test'           # 数据库密码
 
+
+# 对cookie进行处理
 class transCookie:
     def __init__(self, cookie):
         self.cookie = cookie
@@ -106,20 +116,19 @@ class transCookie:
         items = self.cookie.split(';')
         for item in items:
             key = item.split('=')[0].replace(' ', '')
-            value = '='.join(item.split('=')[1:])
+            value = '='.join(item.split('=')[1:])    # 将上一步删掉的=再放回去
             itemDict[key] = value
         return itemDict
 
 
 cookie = "support=1; post_like=1; Hm_lvt_95dfd07652f91dffd9647f46a3ca9fab=1485877213,1487750503;" \
          " toast_ban_create_user=true; isN=1; __utmt=1;" \
-         " __utma=253067679.2027234800.1478413245.1502358164.1502420041.272; __utmb=253067679.14.8.1502420974033;" \
+         " __utma=253067679.2027234800.1478413245.1503116652.1503473778.278; __utmb=253067679.6.8.1503473783644;" \
          " __utmc=253067679; __utmz=253067679.1478413245.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none);" \
          " __utmv=253067679.|1=Is%20Registered=Yes=1;" \
-         " _32382_access_token=129cd19f9720e0e1a38320595afca220457e1989537c8adfcaf8e24f35485744; _32382_ukey=5mq7qr;" \
-         " _32382_auto_signin=1;" \
-         " _32353_access_token=795220465c300d6f03343882ce5d41b642cacd2e1e55e077215e9063cd3d6c3b;" \
-         " _32353_ukey=5mq7qr; _32353_auto_signin=1"
+         " _32353_access_token=ca46c388f614ed75b225a88234a784f918ebf00a88de2c2ba523c488662185f8; _32353_ukey=5mq7qr;" \
+         " _32353_auto_signin=1; _32382_access_token=7fa6f3e0de9c3d8e0fe0a10fd44a806141253ffb52c1e582af71b75f4748c23e;" \
+         " _32382_ukey=5mq7qr; _32382_auto_signin=1"
 trans = transCookie(cookie)
 # print(trans.stringToDict())
 COOKIE = trans.stringToDict()

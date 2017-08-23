@@ -7,8 +7,11 @@
 
 import pymongo
 from scrapy.conf import settings
+import pymysql
+from scrapy import log
 
 
+# 保存到mongodb
 class GuokrspiderPipeline(object):
     def __init__(self):
         # 链接数据库
@@ -27,4 +30,37 @@ class GuokrspiderPipeline(object):
         # print(item['status'])
         postItem = dict(item)  # 把item转化成字典形式
         self.coll.insert(postItem)  # 向数据库插入一条记录
+        return item
+
+
+# 保存到mysql
+class GuokrspiderMysqlPipeline(object):
+    def __init__(self):
+        dbargs = dict(
+            host=settings['MYSQL_HOST'],
+            port=settings['MYSQL_PORT'],
+            db=settings['MYSQL_DBNAME'],
+            user=settings['MYSQL_USER'],
+            passwd=settings['MYSQL_PASSWD'],
+            charset='utf8'
+        )
+        self.conn = pymysql.connect(**dbargs)
+        self.cursor = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        try:
+            with self.conn.cursor() as cursor:
+                cursor.execute(
+                    """insert into guokr_group_range(group_range,group_name,is_super,members,link,status,update_time)
+         values (%s,%s,%s,%s,%s,%s,%s)""",
+                   (item['grouprange'],
+                    item['groupname'],
+                    item['issuper'],
+                    item['members'],
+                    item['link'],
+                    item['status'],
+                    item['update_time']))
+                self.conn.commit()
+        except:
+            self.conn.rollback()
         return item
