@@ -20,7 +20,6 @@ class GuokrSpider(scrapy.Spider):
         'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6',
         'Connection': 'keep-alive',
         'DNT': '1',
-        'Host': 'www.guokr.com',
         'Upgrade-Insecure-Requests': '1',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
                       'Chrome/60.0.3112.90 Safari/537.36 '
